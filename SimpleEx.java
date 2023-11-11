@@ -64,7 +64,7 @@ public class SimpleEx extends JFrame {
         
 
         EventQueue.invokeLater(() -> {
-
+            System.out.println("Hello");
             var ex = new SimpleEx();
             
 
