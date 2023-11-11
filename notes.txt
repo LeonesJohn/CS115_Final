@@ -1,0 +1,16 @@
+prolly use some type of layout manager:
+
+some options:
+BoxLayout
+FlowLayout
+
+
+make good use of jbuttons
+
+figure out how to switch/update scenes
+
+TODO:
+make start screen
+make game screen
+make end screen
+make some stuff
