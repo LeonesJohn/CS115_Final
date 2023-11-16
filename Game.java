@@ -5,6 +5,10 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;               //thats alotta imports
+import java.text.NumberFormat;
+import java.util.Currency;
+
+import javax.naming.ldap.StartTlsRequest;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -19,17 +23,33 @@ import java.awt.GridLayout;
 
 public class Game extends JFrame {
 
-    public Game() {
+    private double money;
+    private static final NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
 
-        initUI();
+    private static final double[] moneyChoices = {0.01,1,5,10,25,50,75,100,200,300,400,500,750,1000,5000,10000,25000,50000,75000,100000,200000,300000,400000,500000,750000,1000000};
+
+    public double getMoney(){ return money; }
+    public void setMoney(double m){
+        if (m >= 0){
+            money = m;
+        }
+    }
+    public void addMoney(double m){
+        money += m;
     }
 
-    private void initUI() {
+
+    public Game() {
+        startScreen();
+    }
+
+    private void startScreen() {
         
         setTitle("Deal Or No Deal");
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setResizable(false);
 
         // Create a JPanel to hold components
         JPanel contentPane = new JPanel(new BorderLayout());
@@ -96,19 +116,42 @@ public class Game extends JFrame {
         contentPane.removeAll();
         contentPane.repaint();
 
-        JPanel textPanel = new JPanel(new GridLayout(2, 1)); // Use a nested panel for the text labels
-        textPanel.setOpaque(false);
-        textPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 100, 0)); 
+        JPanel cases = new JPanel(new  GridLayout(7, 4)); //26 cases at the start of the game
 
-        JLabel text1 = new JLabel("Add game stuff idk how deal or no deal works", SwingConstants.CENTER);
-        JLabel text2 = new JLabel("Make use of jpanels with gridlayout and buttons n stuff", SwingConstants.CENTER);
+        JPanel textPanel = new JPanel(new GridLayout(2, 1));
+        textPanel.setOpaque(false);
+        textPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); 
+
+        JPanel possibleChoices = new JPanel(new GridLayout(13, 2));
+        possibleChoices.setOpaque(false);
+        possibleChoices.setBorder(BorderFactory.createEmptyBorder(10, 5, 100, 5));
+
+        JLabel[] possibleChoice = new JLabel[26];
+        for (int i = 0; i < 26; i++){
+            possibleChoice[i] = (new JLabel(moneyFormat.format(moneyChoices[i]))
+            {{
+                setFont(new Font("Artifakt Element Book", Font.PLAIN, 12));
+                setPreferredSize(new Dimension(100,50)); 
+                setBackground(Color.YELLOW); 
+                setOpaque(true);
+                setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            }});
+
+            possibleChoices.add(possibleChoice[i]);
+        }
+        
+
+        JLabel text1 = new JLabel("im thinking the panel on the left is show the possible money avaliable", SwingConstants.CENTER);
+        JLabel text2 = new JLabel("and on the right is where we click the cases, and up here is dialogue", SwingConstants.CENTER);
         text1.setFont(new Font("Artifakt Element Book", Font.PLAIN, 20));
         text1.setForeground(Color.YELLOW);
         text2.setFont(new Font("Artifakt Element Book", Font.PLAIN, 20));
         text2.setForeground(Color.YELLOW);
         textPanel.add(text1, BorderLayout.CENTER);
         textPanel.add(text2, BorderLayout.CENTER);
-        contentPane.add(textPanel, BorderLayout.CENTER);
+
+        contentPane.add(possibleChoices, BorderLayout.WEST);
+        contentPane.add(textPanel, BorderLayout.NORTH);
         setContentPane(contentPane);
         
     }
