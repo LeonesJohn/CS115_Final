@@ -1,13 +1,22 @@
-prolly use some type of layout manager:
+=======================================================================================================
+notes for project, put stuff that might be useful here, or messages idk
+=======================================================================================================
 
+prolly use some type of layout manager:
 some options:
 BoxLayout
 FlowLayout
 
-
 make good use of jbuttons
 
+USE JPANELS (IMPORTANT) (LEARN HOW THIS WORKS)
+use a lot of google and chatgpt
+
 figure out how to switch/update scenes
+new scene file for game and end screen?
+
+DisplayFonts.java just there to test for some fonts
+use testing.java to test some stuff, change it however u need it
 
 TODO:
 make start screen
