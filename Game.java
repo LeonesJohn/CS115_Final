@@ -37,7 +37,7 @@ public class Game extends JFrame {
 
     private void startScreen() {
         
-        setTitle("Deal Or No Deal");
+        setTitle("No Deal Or Deal");
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -50,7 +50,7 @@ public class Game extends JFrame {
         contentPane.setBackground(Color.BLACK); // Set the background color of the panel
 
         //welcome text
-        JLabel welcomeText = new JLabel("BIENVENIDOS");
+        JLabel welcomeText = new JLabel("bienvenido");
         welcomeText.setFont(new Font("Artifakt Element Book", Font.BOLD, 50));
         welcomeText.setHorizontalAlignment(SwingConstants.CENTER);
         welcomeText.setForeground(Color.YELLOW);
