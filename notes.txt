@@ -20,6 +20,7 @@ use testing.java to test some stuff, change it however u need it
 
 TODO:
 make start screen
+    add howie mandel
     make it look better
     make non-copyright logo (no deal or deal im a genius)
 make game screen
@@ -28,4 +29,5 @@ make game screen
     make banker deals
     make endgame
 make end screen
+add sounds
 make some stuff
