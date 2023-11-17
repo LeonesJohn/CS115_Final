@@ -4,7 +4,7 @@ notes for project, put stuff that might be useful here, or messages idk
 
 prolly use some type of layout manager:
 some options:
-BoxLayout
+GridLayout
 FlowLayout
 
 make good use of jbuttons
@@ -13,13 +13,19 @@ USE JPANELS (IMPORTANT) (LEARN HOW THIS WORKS)
 use a lot of google and chatgpt
 
 figure out how to switch/update scenes
-new scene file for game and end screen?
+new scene file for game and end screen? -- i guess not
 
 DisplayFonts.java just there to test for some fonts
 use testing.java to test some stuff, change it however u need it
 
 TODO:
 make start screen
+    make it look better
+    make non-copyright logo (no deal or deal im a genius)
 make game screen
+    make choose n cases to reveal function
+    make reveal case function
+    make banker deals
+    make endgame
 make end screen
 make some stuff
