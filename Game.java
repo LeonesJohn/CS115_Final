@@ -116,15 +116,20 @@ public class Game extends JFrame {
         contentPane.removeAll();
         contentPane.repaint();
 
+        ImageIcon icon = new ImageIcon("nodealordeal.png");
+        icon = new ImageIcon(icon.getImage().getScaledInstance(400, 200, Image.SCALE_DEFAULT));
+        JLabel logo = new JLabel(icon);
+
+
         JPanel cases = new JPanel(new  GridLayout(7, 4)); //26 cases at the start of the game
 
         JPanel textPanel = new JPanel(new GridLayout(2, 1));
         textPanel.setOpaque(false);
-        textPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0)); 
+        textPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); 
 
         JPanel possibleChoices = new JPanel(new GridLayout(13, 2));
         possibleChoices.setOpaque(false);
-        possibleChoices.setBorder(BorderFactory.createEmptyBorder(10, 5, 100, 5));
+        possibleChoices.setBorder(BorderFactory.createEmptyBorder(10, 5, 0, 5));
 
         JLabel[] possibleChoice = new JLabel[26];
         for (int i = 0; i < 26; i++){
@@ -142,7 +147,7 @@ public class Game extends JFrame {
         
 
         JLabel text1 = new JLabel("im thinking the panel on the left is show the possible money avaliable", SwingConstants.CENTER);
-        JLabel text2 = new JLabel("and on the right is where we click the cases, and up here is dialogue", SwingConstants.CENTER);
+        JLabel text2 = new JLabel("and on the right is where we click the cases, and down here is dialogue", SwingConstants.CENTER);
         text1.setFont(new Font("Artifakt Element Book", Font.PLAIN, 20));
         text1.setForeground(Color.YELLOW);
         text2.setFont(new Font("Artifakt Element Book", Font.PLAIN, 20));
@@ -151,7 +156,8 @@ public class Game extends JFrame {
         textPanel.add(text2, BorderLayout.CENTER);
 
         contentPane.add(possibleChoices, BorderLayout.WEST);
-        contentPane.add(textPanel, BorderLayout.NORTH);
+        contentPane.add(textPanel, BorderLayout.SOUTH);
+        contentPane.add(logo, BorderLayout.NORTH);
         setContentPane(contentPane);
         
     }
