@@ -22,9 +22,9 @@ TODO:
 make start screen
     add howie mandel
     make it look better
-    make non-copyright logo (no deal or deal im a genius)
+   
 make game screen
-    make choose n cases to reveal function
+    
     make reveal case function
     make banker deals
     make endgame

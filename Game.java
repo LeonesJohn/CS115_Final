@@ -24,6 +24,8 @@ public class Game extends JFrame {
     private int currentCase;
     private boolean start = true;
     private JLabel leftText;
+    private JLabel rightText;
+    private JLabel rightTextNum;
 
     Random randy = new Random();
 
@@ -89,9 +91,11 @@ public class Game extends JFrame {
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
         setContentPane(contentPane); // Set the content pane to the customized JPanel
-    }
+    } //end of start screen
 
     private int caseCount = 25; //not counting the first chosen
+    private int round = 1; //for case removal numbers
+
     private void gameScene(JPanel contentPane){
         
         contentPane.removeAll();
@@ -103,7 +107,7 @@ public class Game extends JFrame {
 
 
 
-        JPanel bottomPanel = new JPanel(new GridLayout(1, 2));
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 0)); 
 
@@ -131,7 +135,9 @@ public class Game extends JFrame {
         cases.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 30));
         JButton[] caseButtons = new JButton[26];
 
-        for(int i = 1; i <= 26; i++){
+        int casesLeftToOpen; //for buttons
+
+        for(int i = 1; i <= 26; i++){ //create case buttons
             final int caseNum = i;
 
             caseButtons[i-1] = (new JButton(Integer.toString(caseNum))
@@ -142,7 +148,7 @@ public class Game extends JFrame {
                 setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
 
 
-                addActionListener(new ActionListener() {
+                addActionListener(new ActionListener() { //button action methods
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         setBackground(Color.BLACK); 
@@ -169,25 +175,55 @@ public class Game extends JFrame {
                           caseCount -=1 ;
                           System.out.println("Current case: " + currentCase);
                         }
-                        updateGame(contentPane, bottomPanel);
-                    }
+
+
+                        if(start == true){
+                            JLabel curCase = new JLabel(Integer.toString(currentCase));
+                            curCase.setOpaque(true);
+                            curCase.setPreferredSize(new Dimension(121, 50));
+                            curCase.setBackground(Color.LIGHT_GRAY);
+                            curCase.setForeground(Color.BLACK); 
+                            curCase.setFont(new Font("Artifakt Element Book", Font.BOLD, 20));
+                            curCase.setHorizontalAlignment(SwingConstants.CENTER); //text alignment
+                            curCase.setVerticalAlignment(SwingConstants.CENTER);
+                            
+                            leftText.setText("Current case: ");
+                            leftText.setFont(new Font("Artifakt Element Book", Font.PLAIN, 30));
+                            start = false;
+                        
+                            bottomPanel.add(curCase);
+                            bottomPanel.add(new JLabel(){{setPreferredSize(new Dimension(20, 20));}});
+                            bottomPanel.add(rightText);
+                            bottomPanel.add(rightTextNum);
+                            rightText.setText("Cases left to open: ");
+                            rightTextNum.setText("6");
+                        }
+                        else{
+                            rightTextNum.setText(Integer.toString(openCases()));
+                        }
+                    } //end of button action method
                 });
 
             }});
 
             cases.add(caseButtons[i-1]);
-        }
+        } //end of adding buttons method
         
 
         leftText = new JLabel("Choose a case", SwingConstants.LEFT);
-
-       // JLabel text2 = new JLabel("hot sweaty men", SwingConstants.CENTER);
         leftText.setFont(new Font("Artifakt Element Book", Font.PLAIN, 50));
         leftText.setForeground(Color.YELLOW);
-       // text2.setFont(new Font("Artifakt Element Book", Font.PLAIN, 20));
-       // text2.setForeground(Color.YELLOW);
-        bottomPanel.add(leftText, BorderLayout.CENTER);
-       // bottomPanel.add(text2, BorderLayout.CENTER);
+
+        rightText = new JLabel();
+        rightTextNum = new JLabel();
+        rightText.setFont(new Font("Artifakt Element Book", Font.PLAIN, 30));
+        rightText.setForeground(Color.YELLOW);
+    
+        rightTextNum.setFont(new Font("Artifakt Element Book", Font.PLAIN, 30));
+        rightTextNum.setForeground(Color.YELLOW);
+
+        bottomPanel.add(leftText);
+        
 
         contentPane.add(cases, BorderLayout.EAST);
         contentPane.add(possibleChoices, BorderLayout.WEST);
@@ -195,39 +231,28 @@ public class Game extends JFrame {
         contentPane.add(logo, BorderLayout.NORTH);
         setContentPane(contentPane);
     }
-
-    public void updateGame(JPanel contentPane, JPanel bottomPanel){
-        
-        if(start == true){
-            JLabel curCase = new JLabel(Integer.toString(currentCase));
-            curCase.setOpaque(true);
-            curCase.setPreferredSize(new Dimension(121, 50));
-            curCase.setBackground(Color.LIGHT_GRAY);
-            curCase.setForeground(Color.BLACK); 
-            curCase.setFont(new Font("Artifakt Element Book", Font.BOLD, 20));
-            curCase.setHorizontalAlignment(SwingConstants.CENTER); //text alignment
-            curCase.setVerticalAlignment(SwingConstants.CENTER);
-
-            bottomPanel.removeAll(); 
-
-            bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // new layout
-            
-            
-
-            leftText.setText("Current case: ");
-            leftText.setFont(new Font("Artifakt Element Book", Font.PLAIN, 30));
-            start = false;
-            
-            bottomPanel.add(leftText); 
-            bottomPanel.add(curCase);
-            
-            
-        }
-
     
-        setContentPane(contentPane);
+    private int casesToOpen = 6; //6,5,4,3,2,1,1,1
+    private int openCases(){
+        if (casesToOpen == 1){
+            round++;
+            switch(round){
+                case 2: casesToOpen = 5; break;
+                case 3: casesToOpen = 4; break;
+                case 4: casesToOpen = 3; break;
+                case 5: casesToOpen = 2; break;
+                case 6: casesToOpen = 1; break;
+                case 7: casesToOpen = 1; break;
+                case 8: casesToOpen = 1; break; //2 cases left
+            }
+           
+            //bankerDeal();
+        }
+        else{
+            casesToOpen--;
+        }
+        return casesToOpen;
     }
-
 
     public static void main(String[] args) {
         
