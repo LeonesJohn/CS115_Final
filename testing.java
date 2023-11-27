@@ -5,6 +5,10 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import java.io.File;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.sound.sampled.*;
 
 public class testing extends JFrame {
 
@@ -43,10 +47,20 @@ public class testing extends JFrame {
         add(box);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+        Scanner scanner = new Scanner(System.in);
+		
+		File file = new File("Freddy_faz.wav");
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioStream);
+
+        clip.start();
+
         EventQueue.invokeLater(() -> {
             var ex = new testing();
             ex.setVisible(true);
+
         });
     }
 }

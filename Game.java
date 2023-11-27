@@ -5,7 +5,15 @@ import java.awt.EventQueue;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;               //thats alotta imports
+import java.io.File;
+import java.io.IOException;
 import java.text.NumberFormat;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,6 +25,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Game extends JFrame {
 
@@ -254,8 +263,16 @@ public class Game extends JFrame {
         return casesToOpen;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
         
+        Scanner scanner = new Scanner(System.in);
+		
+		File file = new File("Josh.wav");
+		AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+		Clip clip = AudioSystem.getClip();
+		clip.open(audioStream);
+
+        clip.start();
 
         EventQueue.invokeLater(() -> {
             System.out.println("Hello");
