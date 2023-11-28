@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Image;
@@ -26,6 +27,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.Flow;
 
 public class Game extends JFrame {
 
@@ -144,8 +146,6 @@ public class Game extends JFrame {
         cases.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 30));
         JButton[] caseButtons = new JButton[26];
 
-        int casesLeftToOpen; //for buttons
-
         for(int i = 1; i <= 26; i++){ //create case buttons
             final int caseNum = i;
 
@@ -161,7 +161,7 @@ public class Game extends JFrame {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         setBackground(Color.BLACK); 
-                        setForeground(Color.BLACK); 
+                        setForeground(Color.BLACK);
                         setBorder(null);
                         setText("");
                         setEnabled(false);
@@ -179,13 +179,16 @@ public class Game extends JFrame {
                           possibleChoice[num].setBackground(new Color(139, 128, 0)); // RGB values for Dark Khaki
                           possibleChoice[num].setForeground(Color.DARK_GRAY);
 
+                          
+                          openCase(moneyChoices[num], caseNum);
                           moneyChoices[num] = 0;
 
                           caseCount -=1 ;
                           System.out.println("Current case: " + currentCase);
+                          
                         }
 
-
+                        //update text
                         if(start == true){
                             JLabel curCase = new JLabel(Integer.toString(currentCase));
                             curCase.setOpaque(true);
@@ -255,12 +258,98 @@ public class Game extends JFrame {
                 case 8: casesToOpen = 1; break; //2 cases left
             }
            
-            //bankerDeal();
+            bankerDeal();
         }
         else{
             casesToOpen--;
         }
         return casesToOpen;
+    }
+
+    private void openCase(double dinero, int casenumber){ //open case method
+        ImageIcon icon = new ImageIcon("nodealordeal.png");
+        icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
+        JLabel logo = new JLabel(icon);
+
+        Container curContentPane = getContentPane();
+         
+        JPanel caseopen = new JPanel(new GridLayout(5,1));
+        caseopen.setPreferredSize(new Dimension(800, 600));
+        caseopen.setBackground(Color.BLACK);
+        JPanel crase = new JPanel(){{
+            setOpaque(false);
+        }};
+        JLabel showcase = new JLabel(Integer.toString(casenumber)){{
+            setPreferredSize(new Dimension(200,100));
+            setHorizontalAlignment(SwingConstants.CENTER); // Center the text horizontally
+            setVerticalAlignment(SwingConstants.CENTER); // Center the text vertically
+            setBackground(Color.LIGHT_GRAY);
+            setForeground(Color.BLACK); 
+            setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
+            setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            setOpaque(true);
+        }};
+
+        JLabel text1 = new JLabel("This case had: ");
+        JLabel text2 = new JLabel(moneyFormat.format(dinero));
+        text1.setFont(new Font("Artifakt Element Book", Font.BOLD, 50));
+        text1.setHorizontalAlignment(SwingConstants.CENTER);
+        text1.setForeground(Color.YELLOW);
+        text2.setFont(new Font("Artifakt Element Book", Font.BOLD, 50));
+        text2.setHorizontalAlignment(SwingConstants.CENTER);
+        text2.setForeground(Color.YELLOW);
+
+        JButton continueButton = new JButton("Continue"){{
+            setPreferredSize(new Dimension(121, 50));
+            setBackground(Color.LIGHT_GRAY);
+            setForeground(Color.BLACK); 
+            setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
+            addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setContentPane(curContentPane);
+                }
+            });
+        }};
+        
+        crase.add(showcase);
+        caseopen.add(logo);
+        caseopen.add(crase);
+        caseopen.add(text1);
+        caseopen.add(text2);
+        caseopen.add(continueButton);
+
+        setContentPane(caseopen);
+    } //end of open case method
+
+    private void bankerDeal(){
+        ImageIcon icon = new ImageIcon("nodealordeal.png");
+        icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
+        JLabel logo = new JLabel(icon);
+
+        Container curContentPane = getContentPane();
+         
+        JPanel caseopen = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        caseopen.setPreferredSize(new Dimension(800, 600));
+        caseopen.setBackground(Color.BLACK);
+        
+        JLabel text1 = new JLabel("Banker offer: ");
+        JLabel text2 = new JLabel(moneyFormat.format(3000000));
+        text1.setFont(new Font("Artifakt Element Book", Font.BOLD, 50));
+        text1.setHorizontalAlignment(SwingConstants.CENTER);
+        text1.setForeground(Color.YELLOW);
+        text2.setFont(new Font("Artifakt Element Book", Font.BOLD, 50));
+        text2.setHorizontalAlignment(SwingConstants.CENTER);
+        text2.setForeground(Color.YELLOW);
+
+    
+        
+        caseopen.add(logo);
+        caseopen.add(text1);
+        caseopen.add(text2);
+       // caseopen.add(continueButton);
+
+        setContentPane(caseopen);
     }
 
     public static void main(String[] args)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
