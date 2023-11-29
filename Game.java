@@ -382,19 +382,22 @@ public class Game extends JFrame {
     }
 
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+          Scanner scanner = new Scanner(System.in);
 
-        Scanner scanner = new Scanner(System.in);
-
-        File file = new File("Josh.wav");
+        File file = new File("Wistle.wav");
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
         Clip clip = AudioSystem.getClip();
         clip.open(audioStream);
-
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
         clip.start();
 
+        
+      
         EventQueue.invokeLater(() -> {
             System.out.println("Hello");
             var ex = new Game();
+
+            
 
             ex.setVisible(true);
         });
