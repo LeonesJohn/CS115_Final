@@ -49,7 +49,7 @@ public class Game extends JFrame {
         startScreen();
     }
 
-    private void startScreen() {
+      private void startScreen() {
 
         setTitle("No Deal Or Deal");
         setSize(800, 600);
@@ -59,17 +59,12 @@ public class Game extends JFrame {
 
         // Create a JPanel to hold components
         BackgroundPanel contentPane = new BackgroundPanel("bg.jpeg"); // Replace with your image path
-        // JPanel contentPane = new JPanel(new BorderLayout());
-        JPanel textPanel = new JPanel(new GridLayout(2, 1)); // Use a nested panel for the text labels
         contentPane.setBackground(Color.BLACK); // Set the background color of the panel
 
         ImageIcon icon = new ImageIcon("nodealordeal.png");
         icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
         JLabel logo = new JLabel(icon);
         contentPane.add(logo, BorderLayout.NORTH);
-
-        // Add an empty border to create space at the top
-        textPanel.setBorder(BorderFactory.createEmptyBorder(100, 0, 20, 0));
 
         // Add action buttons
 
@@ -101,6 +96,31 @@ public class Game extends JFrame {
         helpButton.setVerticalTextPosition(SwingConstants.CENTER);
         helpButton.setForeground(Color.BLACK);
 
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 1)); // Panel to hold the button
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(startButton); // Add button to the panel
+        buttonPanel.add(helpButton);
+
+        // Help Panel
+        JPanel helpPanel = new JPanel(new GridLayout(9, 1));
+        JPanel closeButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton closeButton = new JButton("X");
+
+        closeButton.setFont(buttonFont);
+        closeButton.setForeground(Color.BLACK);
+
+        closeButtonPanel.add(closeButton);
+        closeButtonPanel.setOpaque(false);
+
+        JLabel[] instructionLabels = getInstructionLabels();
+
+        helpPanel.add(closeButtonPanel);
+
+        for (JLabel label : instructionLabels) {
+            helpPanel.add(label);
+        }
+        helpPanel.setOpaque(false);
+
         // Add ActionListener to the button
         startButton.addActionListener(new ActionListener() {
             @Override
@@ -109,15 +129,53 @@ public class Game extends JFrame {
             }
         });
 
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 1)); // Panel to hold the button
-        buttonPanel.setOpaque(false);
-        buttonPanel.add(startButton); // Add button to the panel
-        buttonPanel.add(helpButton);
+        helpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contentPane.remove(buttonPanel);
+                contentPane.add(helpPanel);
+                setContentPane(contentPane);
+            }
+        });
+
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                contentPane.remove(helpPanel);
+                contentPane.add(buttonPanel);
+                setContentPane(contentPane);
+            }
+        });
 
         contentPane.add(buttonPanel, BorderLayout.CENTER);
 
         setContentPane(contentPane); // Set the content pane to the customized JPanel
     } // end of start screen
+
+    private JLabel[] getInstructionLabels() {
+        String[] strings = new String[7];
+        JLabel[] jlabels = new JLabel[7];
+
+        strings[0] = "How to Play";
+        strings[1] = "1. Selection of the Briefcase: The contestant selects one briefcase from a set of briefcases.";
+        strings[2] = "2. Opening Other Briefcases: In each round, the contestant chooses a number of other briefcases to be opened.";
+        strings[3] = "3. Banker's Offer: After each round, a \"banker\" makes an offer to buy the contestant's chosen briefcase";
+        strings[4] = "4. Deal or No Deal: The contestant must decide whether to accept the banker's offer (\"Deal\") and end the game, or reject it (\"No Deal\")";
+        strings[5] = "5. Final Rounds: If the contestant continues to play, the rounds proceed with fewer briefcases to open each time until only two briefcases remain.";
+        strings[6] = "6. Final Decision: If the contestant refuses all offers, they reach the end of the game, where they must choose to keep their original briefcase or switch it with the remaining one. The amount in the chosen briefcase is the contestant's final prize.";
+
+        for (int i = 0; i < jlabels.length; i++) {
+            JLabel tempLabel = new JLabel("<HTML>" + strings[i] + "</HTML>", SwingConstants.CENTER);
+            tempLabel.setBorder(new EmptyBorder(10, 10, 10, 10));// top,left,bottom,right
+            tempLabel.setOpaque(true);
+            tempLabel.setFont(new Font("Artifakt Element Book", Font.BOLD, 14));
+            tempLabel.setForeground(Color.WHITE);
+            tempLabel.setBackground(Color.BLACK);
+            jlabels[i] = tempLabel;
+        }
+
+        return jlabels;
+    }
 
     private int caseCount = 25; // not counting the first chosen
     private int round = 1; // for case removal numbers
