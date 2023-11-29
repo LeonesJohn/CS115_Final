@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.FlowLayout;
@@ -180,6 +181,7 @@ public class Game extends JFrame {
 
     private int caseCount = 25; // not counting the first chosen
     private int round = 1; // for case removal numbers
+    private JLabel curCase = new JLabel();
 
     private void gameScene(JPanel contentPane){
        
@@ -269,7 +271,7 @@ public class Game extends JFrame {
 
                         //update text
                         if(start == true){
-                            JLabel curCase = new JLabel(Integer.toString(currentCase));
+                            curCase.setText(Integer.toString(currentCase));
                             curCase.setOpaque(true);
                             curCase.setPreferredSize(new Dimension(121, 50));
                             curCase.setBackground(Color.LIGHT_GRAY);
@@ -289,8 +291,36 @@ public class Game extends JFrame {
                             rightText.setText("Cases left to open: ");
                             rightTextNum.setText("6");
                         }
-                        else{
-                           
+                        else if (caseCount == 1){
+                            // Update bottomPanel when caseCount is 1
+                            leftText.setText("Choose current or final case to ELIMINATE: ");
+                
+                            bottomPanel.remove(curCase);
+                            bottomPanel.remove(rightText);
+                            bottomPanel.remove(rightTextNum);
+
+                            bottomPanel.add(new JButton(Integer.toString(currentCase)){{
+                                setPreferredSize(new Dimension(121, 50));
+                                setBackground(Color.LIGHT_GRAY);
+                                setForeground(Color.BLACK);
+                                setFont(new Font("Artifakt Element Book", Font.BOLD, 20));
+                                setHorizontalAlignment(SwingConstants.CENTER); //text alignment
+                                setVerticalAlignment(SwingConstants.CENTER);
+                                addActionListener(new ActionListener() {
+                                    @Override
+                                    public void actionPerformed(ActionEvent e) {
+                                        caseCount -=1 ;
+                                        int num = 0;
+                                        do {
+                                            num = randy.nextInt(26); // Generate a number between 0 and 25 inclusive
+                                        } while (moneyChoices[num] == 0);
+                                        openCase(moneyChoices[num], currentCase);     
+                                        moneyChoices[num] = 0;                          
+                                    }
+                                });
+                            }});
+                            bottomPanel.revalidate();
+                            bottomPanel.repaint();
                         }
                     } //end of button action method
                 });
@@ -419,7 +449,13 @@ public class Game extends JFrame {
         caseopen.add(text1);
         caseopen.add(text2);
         caseopen.add(continueButton);
-        setContentPane(caseopen);
+
+        SwingUtilities.invokeLater(() -> {
+            setContentPane(caseopen);
+            revalidate();
+            repaint();
+        });
+        //setContentPane(caseopen);
     } //end of open case method
 
 
@@ -505,6 +541,7 @@ public class Game extends JFrame {
         JPanel endScreen = new JPanel();
         endScreen.setPreferredSize(new Dimension(800, 600));
         endScreen.setBackground(Color.BLACK);
+
    
         JLabel text1 = new JLabel("You won: ");
         JLabel text2 = new JLabel(moneyFormat.format(winnings));

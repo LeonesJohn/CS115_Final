@@ -23,11 +23,12 @@ make start screen
     add howie mandel
     make it look better
    
-make game screen
+make game screen ###DONE###DONE###DONE
     
-    make reveal case function
-    make banker deals
-    make endgame
-make end screen
-add sounds
+    make reveal case function ###DONE
+    make banker deals ###DONE
+    make endgame ###DONE
+    
+make end screen ###DONE
+add sounds 
 make some stuff
