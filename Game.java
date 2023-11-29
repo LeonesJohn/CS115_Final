@@ -37,6 +37,7 @@ public class Game extends JFrame {
     private JLabel leftText;
     private JLabel rightText;
     private JLabel rightTextNum;
+    private JPanel possibleChoices = new JPanel(new GridLayout(13, 2));
 
     Random randy = new Random();
 
@@ -116,13 +117,11 @@ public class Game extends JFrame {
         icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
         JLabel logo = new JLabel(icon);
 
-
-
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottomPanel.setOpaque(false);
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 0)); 
 
-        JPanel possibleChoices = new JPanel(new GridLayout(13, 2));
+       
         possibleChoices.setOpaque(false);
         possibleChoices.setBorder(BorderFactory.createEmptyBorder(10, 25, 0, 5));
 
@@ -179,13 +178,9 @@ public class Game extends JFrame {
                           possibleChoice[num].setBackground(new Color(139, 128, 0)); // RGB values for Dark Khaki
                           possibleChoice[num].setForeground(Color.DARK_GRAY);
 
-                          
+                          caseCount -=1 ;
                           openCase(moneyChoices[num], caseNum);
                           moneyChoices[num] = 0;
-
-                          caseCount -=1 ;
-                          System.out.println("Current case: " + currentCase);
-                          
                         }
 
                         //update text
@@ -211,7 +206,7 @@ public class Game extends JFrame {
                             rightTextNum.setText("6");
                         }
                         else{
-                            rightTextNum.setText(Integer.toString(openCases()));
+                            
                         }
                     } //end of button action method
                 });
@@ -257,9 +252,7 @@ public class Game extends JFrame {
                 case 7: casesToOpen = 1; break;
                 case 8: casesToOpen = 1; break; //2 cases left
             }
-           
-            bankerDeal();
-        }
+        }   
         else{
             casesToOpen--;
         }
@@ -307,7 +300,21 @@ public class Game extends JFrame {
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setContentPane(curContentPane);
+                    if(caseCount == 0){
+                        int num = 0;
+                          do {
+                            num = randy.nextInt(26); // Generate a number between 0 and 25 inclusive
+                        } while (moneyChoices[num] == 0);
+                        endScreen(moneyChoices[num]);
+                    }
+                    else{
+                        setContentPane(curContentPane);
+                        if(casesToOpen == 1){
+                            bankerDeal();
+                        }
+                        rightTextNum.setText(Integer.toString(openCases()));
+                    }
+                    
                 }
             });
         }};
@@ -318,23 +325,32 @@ public class Game extends JFrame {
         caseopen.add(text1);
         caseopen.add(text2);
         caseopen.add(continueButton);
-
         setContentPane(caseopen);
     } //end of open case method
 
     private void bankerDeal(){
+        //BANKER DEAL MONEY FORMULA
+        double sumOfSquares = 0.0;
+        int zeroCount = 0;
+        for (double num : moneyChoices) {
+            sumOfSquares += num * num;
+            if (num == 0) {zeroCount++;}
+        }
+        double rms = Math.sqrt(sumOfSquares / (moneyChoices.length - zeroCount));
+
+        
+        Container curContentPane = getContentPane();
+
         ImageIcon icon = new ImageIcon("nodealordeal.png");
         icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
         JLabel logo = new JLabel(icon);
-
-        Container curContentPane = getContentPane();
          
-        JPanel caseopen = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        caseopen.setPreferredSize(new Dimension(800, 600));
-        caseopen.setBackground(Color.BLACK);
-        
+        JPanel bD = new JPanel();
+        bD.setPreferredSize(new Dimension(800, 600));
+        bD.setBackground(Color.BLACK);
+    
         JLabel text1 = new JLabel("Banker offer: ");
-        JLabel text2 = new JLabel(moneyFormat.format(3000000));
+        JLabel text2 = new JLabel(moneyFormat.format(rms));
         text1.setFont(new Font("Artifakt Element Book", Font.BOLD, 50));
         text1.setHorizontalAlignment(SwingConstants.CENTER);
         text1.setForeground(Color.YELLOW);
@@ -342,14 +358,73 @@ public class Game extends JFrame {
         text2.setHorizontalAlignment(SwingConstants.CENTER);
         text2.setForeground(Color.YELLOW);
 
-    
-        
-        caseopen.add(logo);
-        caseopen.add(text1);
-        caseopen.add(text2);
-       // caseopen.add(continueButton);
+        JPanel noDealorDeal = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JButton NODEAL = new JButton("NO DEAL"){{
+            setPreferredSize(new Dimension(200, 100));
+            setBackground(Color.BLACK);
+            setForeground(Color.YELLOW); 
+            setBorder(BorderFactory.createLineBorder(Color.YELLOW));
+            setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
+            addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    possibleChoices.setPreferredSize(new Dimension(250,650));
+                    curContentPane.add(possibleChoices, BorderLayout.WEST);
+                    setContentPane(curContentPane);
+                }
+            });
+        }};
+        JButton DEAL = new JButton("DEAL"){{
+            setPreferredSize(new Dimension(200, 100));
+            setBackground(Color.YELLOW);
+            setForeground(Color.BLACK); 
+            setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
+            addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    endScreen(1000000);
+                }
+            });
+        }};
+ 
+        bD.add(logo);
+        bD.add(text1);
+        bD.add(text2);
+        noDealorDeal.add(NODEAL);
+        noDealorDeal.add(DEAL);
+        bD.add(noDealorDeal); 
+        possibleChoices.setPreferredSize(new Dimension(300, 400));
+        bD.add(possibleChoices);
+        bD.setVisible(true);
+        setContentPane(bD);
+        revalidate();
+        repaint();
+    }
 
-        setContentPane(caseopen);
+    private void endScreen(double winnings){
+        ImageIcon icon = new ImageIcon("nodealordeal.png");
+        icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
+        JLabel logo = new JLabel(icon);
+
+        JPanel endScreen = new JPanel();
+        endScreen.setPreferredSize(new Dimension(800, 600));
+        endScreen.setBackground(Color.BLACK);
+    
+        JLabel text1 = new JLabel("You won: ");
+        JLabel text2 = new JLabel(moneyFormat.format(winnings));
+        text1.setFont(new Font("Artifakt Element Book", Font.BOLD, 70));
+        text1.setHorizontalAlignment(SwingConstants.CENTER);
+        text1.setForeground(Color.YELLOW);
+        text2.setFont(new Font("Artifakt Element Book", Font.BOLD, 70));
+        text2.setHorizontalAlignment(SwingConstants.CENTER);
+        text2.setForeground(Color.YELLOW);
+        
+        endScreen.add(logo);
+        endScreen.add(text1);
+        endScreen.add(text2);
+        setContentPane(endScreen);
+        revalidate();
+        repaint();
     }
 
     public static void main(String[] args)throws UnsupportedAudioFileException, IOException, LineUnavailableException {
