@@ -417,7 +417,7 @@ public class Game extends JFrame {
             addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    endScreen(1000000);
+                    endScreen(rms);
                 }
             });
         }};
