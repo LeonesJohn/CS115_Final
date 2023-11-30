@@ -100,8 +100,8 @@ public class Game extends JFrame {
 
         JPanel buttonPanel = new JPanel(new GridLayout(2, 1)); // Panel to hold the button
         buttonPanel.setOpaque(false);
-        buttonPanel.add(startButton); // Add button to the panel
-        buttonPanel.add(helpButton);
+        buttonPanel.add(new JPanel(){{add(startButton); setOpaque(false);}}); // Add button to the panel
+        buttonPanel.add(new JPanel(){{add(helpButton); setOpaque(false);}});
 
         // Help Panel
         JPanel helpPanel = new JPanel(new GridLayout(9, 1));
@@ -357,7 +357,7 @@ public class Game extends JFrame {
         contentPane.add(bottomPanel, BorderLayout.SOUTH);
         contentPane.add(logo, BorderLayout.NORTH);
         setContentPane(contentPane);
-    }
+    } //end gamescene
    
     private int casesToOpen = 6; //6,5,4,3,2,1,1,1
     private int openCases(){
