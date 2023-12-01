@@ -560,7 +560,7 @@ public class Game extends JFrame {
 
         }});
        
-        JButton playAgainButton = new JButton("Replay?");
+        JButton playAgainButton = new JButton("Play Again");
         playAgainButton.setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
         playAgainButton.setBackground(Color.YELLOW); 
         playAgainButton.setForeground(Color.BLACK); 
