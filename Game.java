@@ -9,15 +9,12 @@ import java.awt.event.ActionListener; //thats alotta imports
 import java.io.File;
 import java.io.IOException;
 import java.text.NumberFormat;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +28,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.concurrent.Flow;
 
 public class Game extends JFrame {
 
@@ -46,10 +42,13 @@ public class Game extends JFrame {
 
     private static final NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
 
-    private static double[] moneyChoices = { 0.01, 1, 5, 10, 25, 50, 75, 100, 200, 300, 400, 500, 750, 1000, 5000,
+    private double[] moneyChoices = { 0.01, 1, 5, 10, 25, 50, 75, 100, 200, 300, 400, 500, 750, 1000, 5000,
             10000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 750000, 1000000 };
 
     public Game() {
+        start = true;
+        round = 1;
+        caseCount = 25;
         startScreen();
     }
 
