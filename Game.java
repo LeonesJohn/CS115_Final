@@ -16,6 +16,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -531,7 +533,6 @@ public class Game extends JFrame {
         repaint();
     }
 
-
     private void endScreen(double winnings){
         ImageIcon icon = new ImageIcon("nodealordeal.png");
         icon = new ImageIcon(icon.getImage().getScaledInstance(486, 64, Image.SCALE_DEFAULT));
@@ -539,10 +540,9 @@ public class Game extends JFrame {
 
 
         JPanel endScreen = new JPanel();
-        endScreen.setPreferredSize(new Dimension(800, 600));
+        endScreen.setPreferredSize(new Dimension(800, 800));
         endScreen.setBackground(Color.BLACK);
 
-   
         JLabel text1 = new JLabel("You won: ");
         JLabel text2 = new JLabel(moneyFormat.format(winnings));
         text1.setFont(new Font("Artifakt Element Book", Font.BOLD, 70));
@@ -551,16 +551,41 @@ public class Game extends JFrame {
         text2.setFont(new Font("Artifakt Element Book", Font.BOLD, 70));
         text2.setHorizontalAlignment(SwingConstants.CENTER);
         text2.setForeground(Color.YELLOW);
-       
+
         endScreen.add(logo);
         endScreen.add(text1);
         endScreen.add(text2);
+        endScreen.add(new JLabel(){{
+            setPreferredSize(new Dimension(800, 100));
+            setOpaque(false);
+
+        }});
+       
+        JButton playAgainButton = new JButton("Replay?");
+        playAgainButton.setFont(new Font("Artifakt Element Book", Font.BOLD, 30));
+        playAgainButton.setBackground(Color.YELLOW); 
+        playAgainButton.setForeground(Color.BLACK); 
+        playAgainButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
+        
+        playAgainButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Game newGame = new Game(); 
+                dispose(); 
+                newGame.setVisible(true); 
+            }
+        });
+
+        endScreen.add(playAgainButton);
+
         setContentPane(endScreen);
+                
         revalidate();
         repaint();
     }
+    
 
-
+    
     public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
           Scanner scanner = new Scanner(System.in);
 
@@ -583,3 +608,4 @@ public class Game extends JFrame {
         });
     }
 }
+
